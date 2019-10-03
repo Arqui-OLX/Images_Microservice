@@ -1,0 +1,14 @@
+{
+  "name": "images_microservice",
+  "version": "1.0.0",
+  "description": "microservice for ads' images storage and retrieving",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Juan Pablo Giron",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1"
+  }
+}
