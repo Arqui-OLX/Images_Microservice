@@ -1,37 +1,108 @@
 const express = require('express');
 const router = express.Router();
+const mongoose = require('mongoose');
+
+const AdImage = require("../models/ads-image")
 
 router.get('/', (req, res, next) => {
 
-    res.status(200).json( {
+    AdImage.find()
+    .exec()
+    .then(docs => {
+        console.log(docs);
+        res.status(200).json(docs);
 
-        message: 'Ads images were fetched'
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
     });
 });
 
 router.post('/', (req, res, next) => {
 
-    res.status(201).json( {
+    const adImage = new AdImage({
+        _id: new mongoose.Types.ObjectId(),
+        ad_id: req.body.ad_id
+    });
 
-        message: 'Ad images was created'
+    adImage.save().then(result => {
+
+        console.log(result);
+        res.status(201).json( {
+
+            message: 'Ad image was created',
+            createAdImage: adImage
+        });
+    })
+    .catch(err =>  {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        })
+    });
+
+});
+
+router.get('/:adImageId', (req, res, next) => {
+
+    const id = req.params.adImageId;
+
+    AdImage.findById(id)
+    .exec()
+    .then(doc => {
+        console.log(doc);
+        if(doc) {
+            res.status(200).json(doc);
+        } else {
+            res.status(404).json({
+                message: 'Ad image not found'
+            });
+        }
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        });
     });
 });
 
-router.get('/:userImageId', (req, res, next) => {
+router.patch('/:adImageId', (req, res, next) => {
+    const id = req.params.adImageId;
 
-    res.status(201).json( {
-
-        message: 'ad image details',
-        id: req.params.userImageId
-    });
+    AdImage.update({_id: id}, {$set: {
+        ad_id: req.body.new_ad_id
+    }})
+    .exec()
+    .then(result => {
+        console.log(res);
+        res.status(200).json(result)
+    })
+    .catch(err => {
+        console.log(err)
+        res.status(500).json({
+            error: err
+        })
+    })
 });
 
-router.delete('/:userImageId', (req, res, next) => {
+router.delete('/:adImageId', (req, res, next) => {
 
-    res.status(201).json( {
+    const id = req.params.adImageId;
 
-        message: 'ad image deleted!',
-        id: req.params.userImageId
+    AdImage.remove({_id: id})
+    .exec()
+    .then(result => {
+        res.status(200).json(result);
+    })
+    .catch(err => {
+        console.log(err);
+        res.status(500).json({
+            error: err
+        });
     });
 });
 

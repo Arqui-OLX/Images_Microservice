@@ -12,9 +12,14 @@ router.get('/', (req, res, next) => {
 
 router.post('/', (req, res, next) => {
 
+    const userImage = {
+        id: req.body.id
+    };
+
     res.status(200).json( {
 
-        message: 'Handling POST request to /user-images'
+        message: 'Handling POST request to /user-images',
+        createdUseimage: userImage
     });
 });
 
