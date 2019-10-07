@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mongoose = require('mongoose');
 const multer = require('multer');
+const fs = require('fs');
 
 const storage = multer.diskStorage({
     destination: function(req, file, cb) {
@@ -123,11 +124,23 @@ router.get('/:adImageId', (req, res, next) => {
     });
 });
 
-router.patch('/:adImageId', (req, res, next) => {
+router.patch('/:adImageId', upload.single('adImage'), (req, res, next) => {
     const id = req.params.adImageId;
 
+    AdImage.findById(id)
+    .exec()
+    .then(doc => {
+        fs.unlink(doc.ad_image, (err) => {
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    });
+
     AdImage.updateOne({_id: id}, {$set: {
-        ad_id: req.body.new_ad_id
+        ad_image: req.file.path
     }})
     .exec()
     .then(result => {
@@ -144,7 +157,19 @@ router.delete('/:adImageId', (req, res, next) => {
 
     const id = req.params.adImageId;
 
-    AdImage.remove({_id: id})
+    AdImage.findById(id)
+    .exec()
+    .then(doc => {
+        fs.unlink(doc.ad_image, (err) => {
+        });
+    })
+    .catch(err => {
+        res.status(500).json({
+            error: err
+        });
+    });
+
+    AdImage.deleteOne({_id: id})
     .exec()
     .then(result => {
         res.status(200).json(result);
@@ -155,6 +180,7 @@ router.delete('/:adImageId', (req, res, next) => {
             error: err
         });
     });
+
 });
 
 module.exports = router;

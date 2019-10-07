@@ -29,7 +29,7 @@ router.get('/:userImageId', (req, res, next) => {
 
     res.status(200).json({
 
-        message: 'Product obtained!'
+        message: 'User Image  obtained!'
     });
 
 });
@@ -38,7 +38,7 @@ router.patch('/:userImageId', (req, res, next) => {
 
     res.status(200).json({
 
-        message: 'Updated product!'
+        message: 'User Image updates!'
     });
 });
 
@@ -46,7 +46,7 @@ router.delete('/:userImageId', (req, res, next) => {
 
     res.status(200).json({
 
-        message: 'deleted product!'
+        message: 'deleted User Image!'
     });
 });
 
