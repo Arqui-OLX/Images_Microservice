@@ -11,6 +11,8 @@ mongoose.connect('mongodb+srv://jpgironb:' + process.env.MONGO_ATLAS_PW + '@olx-
     useUnifiedTopology: true    
 });
 
+app.use('/uploads', express.static('uploads'));
+
 app.use(bodyParser.urlencoded({extended: false}));
 app.use(bodyParser.json());
 
