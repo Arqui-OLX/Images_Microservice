@@ -69,7 +69,7 @@ router.get('/byid/:adId', (req, res, next) => {
 
 router.post('/', upload.single('adImage'),(req, res, next) => {
 
-    console.log(req.file);
+
 
     const adImage = new AdImage({
         _id: new mongoose.Types.ObjectId(),
@@ -175,7 +175,6 @@ router.delete('/:adImageId', (req, res, next) => {
         res.status(200).json(result);
     })
     .catch(err => {
-        console.log(err);
         res.status(500).json({
             error: err
         });
