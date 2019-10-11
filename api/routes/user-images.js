@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const multer = require('multer');
 const fs = require('fs');
 
@@ -32,7 +31,7 @@ const UserImage = require('../models/user-image');
 router.get('/', (req, res, next) => {
 
     UserImage.find()
-    .select("user_id user_image")
+    .select("_id user_id user_image")
     .exec()
     .then(docs => {
 
@@ -71,7 +70,6 @@ router.get('/byid/:userId', (req, res, next) => {
 router.post('/', upload.single('userImage'),(req, res, next) => {
 
     const userImage = new UserImage({
-        _id: new mongoose.Types.ObjectId(),
         user_id: req.body.user_id,
         user_image: req.file.path
     });

@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose');
 const multer = require('multer');
 const fs = require('fs');
 
@@ -72,7 +71,6 @@ router.post('/', upload.single('adImage'),(req, res, next) => {
 
 
     const adImage = new AdImage({
-        _id: new mongoose.Types.ObjectId(),
         ad_id: req.body.ad_id,
         ad_image: req.file.path
     });

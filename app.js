@@ -6,10 +6,22 @@ const mongoose = require('mongoose');
 const userImagesRoutes = require('./api/routes/user-images');
 const adImagesRoutes = require('./api/routes/ads-images')
 
+/*
+CLOUD MONGODB ATLAS DATABASE
 mongoose.connect('mongodb+srv://jpgironb:' + process.env.MONGO_ATLAS_PW + '@olx-images-hkdiq.mongodb.net/olx-images?retryWrites=true&w=majority', {
+    useCreateIndex: true,    
     useNewUrlParser: true,
     useUnifiedTopology: true    
-});
+});*/
+
+const mongoDB = 'mongodb://storage-db/images-database';
+
+mongoose.connect(mongoDB, {
+
+    useCreateIndex: true,
+    useNewUrlParser: true,
+    useUnifiedTopology: true    
+}).catch(err => console.log(err));
 
 app.use('/uploads', express.static('uploads'));
 
