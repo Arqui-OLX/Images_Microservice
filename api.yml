@@ -1,0 +1,188 @@
+#Test with: http://editor.swagger.io/
+swagger: '2.0'
+info:
+  version: 1.0.0
+  title: Microservice for Ads and User Images
+  description: This microservice uses Nodejs and Mongodb atlas for quering and uploading images
+host: 3.132.77.98:3001
+basePath: /ads-images
+schemes:
+  - http
+consumes:
+  - multipart/form-data
+produces:
+  - application/json
+paths:
+  /:
+    post:
+      summary: Creates a new image for an add
+      operationId: createImage
+      parameters:
+        - name: image
+          in: body
+          required: true
+          description: Image Object
+          schema:
+            $ref: '#/definitions/AdImage'
+      responses:
+        '201':
+          description: Created
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '400':
+          description: Bad Request
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+    get:
+      summary: Returns all ads images
+      operationId: getAllImages
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/UserImage'
+        '406':
+          description: Not Acceptable (Invalid Params)
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '500':
+          description: Internal Server Error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+  /{adId}:
+    get:
+      summary: Returns a course with the given code
+      operationId: getCourseByCode
+      parameters:
+        - name: adId
+          in: path
+          description: The id of the ad for getting the images
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+          schema:
+            $ref: '#/definitions/Course'
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+    patch:
+      summary: Updates an image from an ad
+      operationId: updateCourse
+      parameters:
+        - name: adId
+          in: path
+          description: the id of the ad to be updated
+          required: true
+          type: integer
+      responses:
+        '204':
+          description: No Content
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+  
+  
+    delete:
+      summary: Deletes an image from an id
+      operationId: deleteCourse
+      parameters:
+        - name: adId
+          in: path
+          description: The id of the image to be deleted
+          required: true
+          type: integer
+      responses:
+        '200':
+          description: Ok
+        '404':
+          description: Not Found
+          schema:
+            $ref: '#/definitions/ErrorModel'
+        '406':
+            description: Not Acceptable (Invalid Params)
+            schema:
+              $ref: '#/definitions/ErrorModel'
+        '500':
+          description: unexpected error
+          schema:
+            $ref: '#/definitions/ErrorModel'
+
+definitions:
+
+  # Models
+  Course:
+    type: object
+    properties:
+      code:
+        type: integer
+      name:
+        type: string
+      credits:
+        type: integer
+
+  AdImage:
+    type: object
+    required:
+      - ad_id
+      - ad_image
+    properties:
+      id:
+        type: integer
+      ad_id:
+        type: string
+      ad_image:
+        type: string
+
+  UserImage:
+    type: object
+    required:
+      - user_id
+      - user_image
+    properties:
+      id:
+        type: integer
+      user_id:
+        type: string
+      ad_image:
+        type: string
+
+# Errors
+  ErrorModel:
+    type: object
+    required:
+      - ad_id
+      - ad_image
+    properties:
+      message:
+        type: string
+      code:
+        type: number
+      description:
+        type: object

@@ -14,7 +14,7 @@ mongoose.connect('mongodb+srv://jpgironb:' + process.env.MONGO_ATLAS_PW + '@olx-
     useUnifiedTopology: true    
 });*/
 
-const mongoDB = 'mongodb://storage-db/images-database';
+const mongoDB = 'mongodb://localhost/images-database';
 
 mongoose.connect(mongoDB, {
 

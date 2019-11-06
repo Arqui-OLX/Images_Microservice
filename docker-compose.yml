@@ -2,6 +2,8 @@ version: "2"
 services:
   storage-ms:
     build: .
+    labels:
+      io.rancher.scheduler.affinity:host_label: "id=n1"
     ports:
       - "3001:3001"
     links:
@@ -10,5 +12,7 @@ services:
     image: mongo
     volumes:
       - /data/mongodb/db:/data/db
+    labels:
+      io.rancher.scheduler.affinity:host_label: "id=n1"
     ports:
       - "3307:3307"
